@@ -1,4 +1,4 @@
-//Create Custom Post Type - Testimonials
+//Custom Post Type - Testimonials
 function custom_testimonial_type(){
 	register_post_type('testimonials', array(
 		'labels'=> array(
@@ -16,7 +16,7 @@ add_action('init', 'custom_testimonial_type');
 add_action('rest_api_init', 'custom_testimonial_route');
 function custom_testimonial_route(){
 	register_rest_route(
-		'custom/v1',
+		'custom/v2',
 		'/testimonials',
 		array(
 		'methods' => 'GET',
@@ -28,8 +28,8 @@ function custom_testimonial_route(){
 //Callback Function
 function get_testimonials(){
 	$testimonials = array();
-	$arsg = array(
-	'post-type' => 'Testimonials',
+	$args = array(
+	'post_type' => 'testimonials',
 	'nopaging' => true,
 	);
 	$query = new WP_Query($args);
@@ -37,8 +37,8 @@ function get_testimonials(){
 			while($query->have_posts()){
 				$query->the_post();
 				$testimonial_data = array(
-				'title' => 'get_the_title',
-				'content' => 'get_the_content',
+				'title' => get_the_title(),
+				'content' => get_the_content(),
 				);
 				$testimonials[] = $testimonial_data;
 			}
