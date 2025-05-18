@@ -24,3 +24,25 @@ function custom_testimonial_route(){
 		)
 	);
 }
+
+//Callback Function
+function get_testimonials(){
+	$testimonials = array();
+	$arsg = array(
+	'post-type' => 'Testimonials',
+	'nopaging' => true,
+	);
+	$query = new WP_Query($args);
+		if($query->have_posts()){
+			while($query->have_posts()){
+				$query->the_post();
+				$testimonial_data = array(
+				'title' => 'get_the_title',
+				'content' => 'get_the_content',
+				);
+				$testimonials[] = $testimonial_data;
+			}
+			wp_reset_postdata();
+		}
+	return rest_ensure_response($testimonials);
+}
